@@ -9,7 +9,7 @@ const urlsToCache = [
   './core/generadorlilibre.js',
   './data/banco_ecenes.json',
   './data/banco_emocions.json',
-  './data/banco_escenarios.json',
+  './data/banco_escenaris.json',
   './data/banco_estructura.json',
   './data/banco_generes.json',
   './data/banco_lectura.json',
