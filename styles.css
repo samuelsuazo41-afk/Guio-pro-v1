@@ -118,7 +118,7 @@ header p {
 }
 
 .tab.open > .tab-content {
-  max-height: 500px !important;
+  max-height: 600px !important;
   padding: 12px 16px 16px 16px !important;
 }
 
