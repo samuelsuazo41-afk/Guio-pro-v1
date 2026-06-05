@@ -1,4 +1,4 @@
-const CACHE_NAME = 'guio-pro-v30';
+const CACHE_NAME = 'Pro-Guion-v30';
 const urlsToCache = [
   './',
   './index.html?v=7',
@@ -26,4 +26,21 @@ const urlsToCache = [
 // Instal·lació: cachejar i activar immediatament
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(urlsToCache))
+      .then(() => self.skipWaiting())
+  );
+});
+
+// Activació: esborrar caches velles i prendre control
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      )
+    ).then(() => self
