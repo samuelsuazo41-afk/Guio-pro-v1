@@ -1,4 +1,4 @@
-// main.js - Guio-Pro v6.1 FLUX 3 NIVELLS + ONCLICK FIX CHROME MÒBIL
+// main.js - Pro-Guion v6.1 FLUX 3 NIVELLS + ONCLICK FIX CHROME MÒBIL
 import { loadAllBancs } from './data/loaderjson.js';
 import { generarLlibre } from './core/generadorlilibre.js';
 
