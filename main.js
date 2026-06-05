@@ -1,4 +1,4 @@
-// main.js - Guio-Pro v6.0 FLUX 3 NIVELLS + 9 BANCS
+// main.js - Guio-Pro v6.1 FLUX 3 NIVELLS + ONCLICK FIX CHROME MÒBIL
 import { loadAllBancs } from './data/loaderjson.js';
 import { generarLlibre } from './core/generadorlilibre.js';
 
@@ -16,7 +16,19 @@ let configActual = {
   intensitat: 'mitjana'
 };
 
-console.log('main.js carregat v6.0');
+console.log('main.js carregat v6.1');
+
+// FUNCIÓN GLOBAL para onclick en HTML
+window.toggleTab = function(tabId) {
+  const tab = document.getElementById(tabId);
+  const estabaAbierto = tab.classList.contains('open');
+
+  // Cierra todos
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('open'));
+
+  // Abre si estaba cerrado
+  if (!estabaAbierto) tab.classList.add('open');
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
   console.log('DOM ready');
@@ -24,10 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     bancs = await loadAllBancs();
     console.log('Bancs carregats:', Object.keys(bancs));
 
-    renderGeneres();
-    renderEstructura();
-    renderEstil();
-    enganxarEventListeners();
+    renderInicial();
     console.log('App lista ✅');
   } catch (err) {
     console.error('Error iniciant app:', err);
@@ -35,21 +44,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-function enganxarEventListeners() {
-  const headers = document.querySelectorAll('.tab-header');
-  headers.forEach(header => {
-    header.addEventListener('click', (e) => {
-      e.preventDefault();
-      const tab = header.closest('.tab');
-      const estabaAbierto = tab.classList.contains('open');
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('open'));
-      if (!estabaAbierto) tab.classList.add('open');
-    });
-  });
+function renderInicial() {
+  renderGeneres();
+  renderEstructura();
+  renderEstil();
 
-  document.getElementById('btn-preview').addEventListener('click', mostrarOutline);
-  document.getElementById('btn-generar').addEventListener('click', generarGuio);
-  document.getElementById('btn-exportar').addEventListener('click', exportarTxt);
+  // Botones de acción directo, sin addEventListener
+  document.getElementById('btn-preview').onclick = mostrarOutline;
+  document.getElementById('btn-generar').onclick = generarGuio;
+  document.getElementById('btn-exportar').onclick = exportarTxt;
 }
 
 function getArray(data,...keys) {
