@@ -4,7 +4,7 @@ const urlsToCache = [
   './index.html?v=2',
   './styles.css?v=2',
   './main.js?v=2',
-  './manifest.json?v=1',
+  './manifest.json?v=2',
   './data/loaderjson.js',
   './core/generadorlilibre.js',
   './data/banco_ecenes.json',
@@ -18,8 +18,8 @@ const urlsToCache = [
   './data/banco_sons.json',
   './data/banco_ubicacions.json',
   './data/determinants.json',
-  './icon-192.png?v=1',
-  './icon-512.png?v=1',
+  './icon-192.png?v=2',
+  './icon-512.png?v=2',
   './icon-512-maskable.png?v=1'
 ];
 
