@@ -1,4 +1,4 @@
-// main.js - Guio-Pro v3.7 FIX DESPLEGAMENT SUBMENÚS
+// main.js - Guio-Pro v3.8 FIX DESPLEGAMENT REAL
 import { loadAllBancs } from './data/loaderjson.js';
 import { generarLlibre } from './core/generadorlilibre.js';
 
@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     bancs = await loadAllBancs();
     console.log('Bancs carregats:', Object.keys(bancs));
-    console.log('Contingut bancs:', bancs);
     renderAllSubtabs();
     enganxarEventListeners();
     console.log('App lista ✅');
@@ -31,13 +30,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function enganxarEventListeners() {
+  // Lògica copiada de la v22 però tancant els altres tabs
   document.querySelectorAll('.tab-header').forEach(header => {
     header.addEventListener('click', (e) => {
       e.preventDefault();
       vibrar();
       const tab = header.closest('.tab');
       const estabaAbierto = tab.classList.contains('open');
+
+      // Tanca tots els altres tabs primer
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('open'));
+
+      // Si el que has clicat no estava obert, obre'l
       if (!estabaAbierto) {
         tab.classList.add('open');
       }
