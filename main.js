@@ -1,4 +1,4 @@
-// main.js - Guio-Pro v3.5 FIX FINAL SUBMENÚS
+// main.js - Guio-Pro v3.6 FIX SUBMENÚS REALS
 import { loadAllBancs } from './data/loaderjson.js';
 import { generarLlibre } from './core/generadorlilibre.js';
 
@@ -17,8 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     bancs = await loadAllBancs();
     console.log('Bancs carregats:', Object.keys(bancs));
-
-    // Pinta subtabs immediatament amb fallback si bancs ve buit
+    console.log('Contingut bancs:', bancs); // per debugar
     renderAllSubtabs();
     enganxarEventListeners();
     console.log('App lista ✅');
@@ -51,16 +50,16 @@ function enganxarEventListeners() {
 }
 
 function renderAllSubtabs() {
-  // Fallback dur com al TEST TABS v22 si el JSON no carrega
-  const generos = bancs.banco_generes?.generos || bancs.generes || ['Drama','Romàntica','Thriller','Fantasia','Sci-Fi','Històrica'];
+  // Llegeix directe de l’array del JSON. Si no existeix, usa fallback dur
+  const generos = bancs.banco_generes || ['Drama','Romàntica','Thriller','Fantasia','Sci-Fi','Històrica'];
   renderSubtabs('genere-content', generos, 'genere');
 
   renderSubtabs('estructura-content', [3,4,6,8,12], 'nCapitols', v => `${v} cap`);
 
-  const escenaris = bancs.banco_escenaris?.tipos || bancs.escenaris || ['Aleatori','Ciutat','Rural','Històric','Futurista','Mar'];
+  const escenaris = bancs.banco_escenaris || ['Aleatori','Ciutat','Rural','Històric','Futurista','Mar'];
   renderSubtabs('mon-content', escenaris, 'mon');
 
-  const arquetips = bancs.banco_personatges?.arquetipos || bancs.arquetips || ['Aleatori','Heroïna','Antiheroi','Mentor','Vilà','Grup'];
+  const arquetips = bancs.banco_personatges || ['Aleatori','Heroïna','Antiheroi','Mentor','Vilà','Grup'];
   renderSubtabs('personatges-content', arquetips, 'personatge');
 
   renderSubtabs('estil-content', ['Directe','Poètic','Juvenil','Adult'], 'estil');
@@ -68,11 +67,14 @@ function renderAllSubtabs() {
 
 function renderSubtabs(containerId, items, configKey, labelFn = v => v) {
   const container = document.getElementById(containerId);
-  if (!container) return;
+  if (!container) {
+    console.warn('Container no trobat:', containerId);
+    return;
+  }
 
   container.innerHTML = '';
+  console.log(`Pintant ${containerId} amb ${items.length} items`);
 
-  // Si per algun motiu items ve buit, posa el primer per defecte
   if (configActual[configKey] === null && items.length > 0) {
     configActual[configKey] = items[0];
   }
