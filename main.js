@@ -1,4 +1,4 @@
-// main.js - Guio-Pro v3.8 FIX DESPLEGAMENT REAL
+// main.js - Guio-Pro v3.9 DEBUG
 import { loadAllBancs } from './data/loaderjson.js';
 import { generarLlibre } from './core/generadorlilibre.js';
 
@@ -13,7 +13,10 @@ let configActual = {
   estil: 'Directe'
 };
 
+console.log('main.js cargado');
+
 document.addEventListener('DOMContentLoaded', async () => {
+  console.log('DOM ready');
   try {
     bancs = await loadAllBancs();
     console.log('Bancs carregats:', Object.keys(bancs));
@@ -22,28 +25,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('App lista ✅');
   } catch (err) {
     console.error('Error iniciant app:', err);
-    const resultat = document.getElementById('resultat');
-    if (resultat) {
-      resultat.innerHTML = '<p style="color:var(--danger)">Error carregant bancs</p>';
-    }
   }
 });
 
 function enganxarEventListeners() {
-  // Lògica copiada de la v22 però tancant els altres tabs
-  document.querySelectorAll('.tab-header').forEach(header => {
+  const headers = document.querySelectorAll('.tab-header');
+  console.log('Headers encontrados:', headers.length);
+
+  headers.forEach(header => {
     header.addEventListener('click', (e) => {
       e.preventDefault();
-      vibrar();
+      console.log('Click en tab header');
       const tab = header.closest('.tab');
       const estabaAbierto = tab.classList.contains('open');
+      console.log('Estaba abierto:', estabaAbierto);
 
-      // Tanca tots els altres tabs primer
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('open'));
 
-      // Si el que has clicat no estava obert, obre'l
       if (!estabaAbierto) {
         tab.classList.add('open');
+        console.log('Tab abierto:', tab.dataset.tab);
       }
     });
   });
@@ -71,12 +72,12 @@ function renderAllSubtabs() {
 function renderSubtabs(containerId, items, configKey, labelFn = v => v) {
   const container = document.getElementById(containerId);
   if (!container) {
-    console.warn('Container no trobat:', containerId);
+    console.warn('Container no encontrado:', containerId);
     return;
   }
 
   container.innerHTML = '';
-  console.log(`Pintant ${containerId} amb ${items.length} items`);
+  console.log(`Pintando ${containerId} con ${items.length} items`);
 
   if (configActual[configKey] === null && items.length > 0) {
     configActual[configKey] = items[0];
@@ -89,7 +90,6 @@ function renderSubtabs(containerId, items, configKey, labelFn = v => v) {
     if (configActual[configKey] === item) btn.classList.add('active');
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      vibrar();
       container.querySelectorAll('.subtab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       configActual[configKey] = item;
@@ -150,14 +150,4 @@ function exportarTxt() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-}
-
-function vibrar() {
-  if (navigator.vibrate) navigator.vibrate(50);
-}
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(console.error);
-  });
 }
