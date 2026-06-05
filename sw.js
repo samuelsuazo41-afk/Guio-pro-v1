@@ -1,22 +1,22 @@
-const CACHE_NAME = 'guio-pro-v20';
+const CACHE_NAME = 'guio-pro-v21';
 const urlsToCache = [
   './',
-  './index.html?v=2',
-  './styles.css?v=2',
-  './main.js?v=2',
+  './index.html?v=12',
+  './styles.css?v=12',
+  './main.js?v=6',
   './manifest.json?v=2',
   './data/loaderjson.js',
   './core/generadorlilibre.js',
   './data/banco_ecenes.json',
   './data/banco_emocions.json',
-  './data/banco_escenaris.json',
+  './data/banco_escenarios.json',
   './data/banco_estructura.json',
   './data/banco_generes.json',
   './data/banco_lectura.json',
   './data/banco_olors.json',
-  './data/banco_personatges.json',
+  './data/banco_personatge.json',
   './data/banco_sons.json',
-  './data/banco_ubicacions.json',
+  './data/banco_ubicacion.json',
   './data/determinants.json',
   './icon-192.png?v=2',
   './icon-512.png?v=2',
@@ -68,6 +68,6 @@ self.addEventListener('fetch', event => {
           return res;
         });
       })
-      .catch(() => caches.match('./index.html'))
+      .catch(() => caches.match('./index.html?v=12'))
   );
 });
